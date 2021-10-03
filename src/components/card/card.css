@@ -1,0 +1,25 @@
+.card{
+   /* box-shadow: 5px 5px 15px gainsboro; */
+   /* padding: 30px; */
+}
+
+.card-title{
+    text-align: center;
+}
+.flex{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+.card-detail{
+    width: 85%;
+
+}
+.card-detail p{
+    margin: 5px;
+}
+.color{
+    color:saddlebrown;
+    font-weight: 700;
+    font-size: 20px;
+}
