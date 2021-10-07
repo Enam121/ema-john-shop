@@ -15,7 +15,6 @@ const Card = (props) => {
             product.quantity = 1;
         }
         totalQuantity = totalQuantity + product.quantity;
-        console.log(product.quantity)
         totalPrice = totalPrice + (product.price * product.quantity);
         shipping = shipping + (product.quantity * 15);
 
@@ -51,7 +50,9 @@ const Card = (props) => {
 
                 </p>
             </div>
-            <button className="regular-btn">View your order</button>
+            {
+                props.children
+            }
 
         </div>
     );

@@ -1,53 +1,42 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import useCard from '../../hooks/useCard';
+import useProducts from '../../hooks/useProducts';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Card from '../card/card';
 import Product from '../Product/product';
 import './shop.css'
 
+
 const Shop = () => {
 
-    const [products, setProducts] = useState([]);
+    const [products] = useProducts();
 
-    const [card, setCard] = useState([]);
+    const [card, setCard] = useCard(products);
+
     //product to be rendered on the UI
     const [displayData, setDisplayData] = useState([])
 
-
     useEffect(() => {
-        fetch('./products.JSON')
-            .then(res => res.json())
-            .then(data => {
-                setProducts(data)
-                setDisplayData(data)
-            })
 
-    }, []);
-
-
-    useEffect(() => {
-        const savedCard = getStoredCart();
-        const storedCard = [];
-
-        for (const keys in savedCard) {
-            if (products.length) {
-                const addedProduct = products.find(product => product.key === keys)
-                if (addedProduct) {
-                    addedProduct.quantity = savedCard[keys];
-                    storedCard.push(addedProduct)
-
-                }
-            }
-
-        }
-        setCard(storedCard)
+        setDisplayData(products)
 
     }, [products]);
 
 
     const handleCard = (product) => {
 
-        const newCard = [...card, product];
-
+        const exists = card.find(pd => pd.key === product.key);
+        let newCard = [];
+        if (exists) {
+            const remaining = card.filter(pd => pd.key !== product.key);
+            exists.quantity = exists.quantity + 1;
+            newCard = [...remaining, exists]
+        }
+        else {
+            product.quantity = 1;
+            newCard = [...card, product];
+        }
         setCard(newCard)
 
         //set data in local storage
@@ -74,7 +63,9 @@ const Shop = () => {
                     }
                 </div>
                 <div className="card-container">
-                    <Card card={card}></Card>
+                    <Card card={card}>
+                        <Link to="view-order">  <button className="btn-regular">View your order</button></Link>
+                    </Card>
                 </div>
             </div>
         </>

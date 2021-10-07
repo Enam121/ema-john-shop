@@ -11,10 +11,11 @@
 .star-color{
     color: rgb(246, 202, 4);
 }
-.regular-btn{
+.btn-regular{
     padding: 5px 55px;
     background-color: rgb(230, 183, 65);
     border-radius: 5px;
     border: 1px solid rgb(129, 115, 115);
     text-align: center;
+    margin-bottom: 10px;
 }
