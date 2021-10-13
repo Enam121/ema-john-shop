@@ -36,7 +36,7 @@ const ViewOrder = () => {
   const handleOrder = () => {
     setCard([])
     clearTheCart()
-    history.push("/gif")
+    history.push("/shipping")
 
   }
 
