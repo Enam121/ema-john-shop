@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useCard from '../../hooks/useCard';
-import useProducts from '../../hooks/useProducts';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Card from '../card/card';
 import Product from '../Product/product';
@@ -10,18 +9,29 @@ import './shop.css'
 
 const Shop = () => {
 
-    const [products] = useProducts();
+    const [products, setProducts] = useState([]);
 
-    const [card, setCard] = useCard(products);
+    const [card, setCard] = useCard();
 
     //product to be rendered on the UI
     const [displayData, setDisplayData] = useState([])
 
+    const [pageCount, setPageCount] = useState(0);
+    const [page, setPage] = useState(0);
+    const size = 10;
+
     useEffect(() => {
+        fetch(`http://localhost:5200/products?page=${page}&&size=${size}`)
+            .then(res => res.json())
+            .then(data => {
+                setProducts(data.products);
+                setDisplayData(data.products);
+                const count = data.count;
+                const pageNumber = Math.ceil(count / size)
+                setPageCount(pageNumber)
+            })
 
-        setDisplayData(products)
-
-    }, [products]);
+    }, [page]);
 
 
     const handleCard = (product) => {
@@ -61,6 +71,19 @@ const Shop = () => {
                     {
                         displayData.map(product => <Product key={product.key} product={product} handleCard={handleCard}></Product>)
                     }
+
+                    <div className="pagination">
+                        {
+                            [...Array(pageCount).keys()]
+                                .map(number => <button
+                                    key={number}
+                                    onClick={() => setPage(number)}
+                                    className={number === page ? "selected" : ''}
+                                >
+                                    {number + 1}</button>)
+                        }
+                    </div>
+
                 </div>
                 <div className="card-container">
                     <Card card={card}>

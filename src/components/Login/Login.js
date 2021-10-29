@@ -9,7 +9,7 @@ const Login = () => {
   const { signInUsingGoogle } = useAuth();
 
   const location = useLocation()
-  const redirect_uri = location.state?.from || "/shop";
+  const redirect_uri = location.state?.from || "/";
   const history = useHistory();
 
   const handleGoogleSignIn = () => {
@@ -40,7 +40,7 @@ const Login = () => {
 
         </button>
         <p>New user?</p>
-        <button><Link to="resister">Create accoutn</Link></button>
+        <button><Link to="resister">Create account</Link></button>
       </div>
 
     </div>

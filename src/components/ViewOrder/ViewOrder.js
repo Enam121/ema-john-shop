@@ -1,17 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import useCard from '../../hooks/useCard';
-import useProducts from '../../hooks/useProducts';
-import { clearTheCart, deleteFromDb, getStoredCart } from '../../utilities/fakedb';
+import { deleteFromDb, getStoredCart } from '../../utilities/fakedb';
 import Card from '../card/card';
 import OrderedItem from '../DisplayOrderdItem/OrderedItem';
 
 
 const ViewOrder = () => {
 
-  const [products] = useProducts();
-
-  const [card, setCard] = useCard(products);
+  const [card, setCard] = useCard();
 
   const history = useHistory();
 
@@ -35,7 +32,6 @@ const ViewOrder = () => {
 
   const handleOrder = () => {
     setCard([])
-    clearTheCart()
     history.push("/shipping")
 
   }
